@@ -48,6 +48,7 @@ urlpatterns = [
     url(r'^demoView/$', demoView.demoView),
     url(r'^TestModel/', include('TestModel.urls')),
     url(r'^', include('books.urls')),
+    url(r'^', include('book_drf.urls')),
     # url(r'^',views.BooksView)
 ]
 
