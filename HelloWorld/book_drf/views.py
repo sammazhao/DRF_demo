@@ -1,3 +1,5 @@
+import json
+
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.views import View
@@ -16,6 +18,17 @@ class Books(View):
         # 返回多个数据对象时候，many=True，才能返回多个数据
         ser=BookSerializer(books,many=True)
         return JsonResponse(ser.data,safe=False)
+
+    def post(self,request):
+#         1. 获取前端数据
+        data=request.body.decode()
+        data_dict=json.loads(data)
+#         2. 验证数据
+        ser=BookSerializer(data=data_dict)
+        ser.is_valid(raise_exception=True) #验证方法。 调用这个方法后，会进入序列化器中验证字段指定的选项参数.
+                                            # raise_exception=True, 出错后自动返回error信息
+        return JsonResponse(ser.errors)
+
 
 class Book(View):
     def get(self, request):
